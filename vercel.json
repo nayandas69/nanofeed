@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "framework": "nuxt",
+  "framework": "nuxtjs",
   "cleanUrls": true,
   "installCommand": "npm install",
   "buildCommand": "npm run build",

@@ -2,7 +2,7 @@
   "version": 2,
   "framework": "nuxtjs",
   "cleanUrls": true,
-  "installCommand": "npm install",
+  "installCommand": "npm install --force",
   "buildCommand": "npm run build",
   "headers": [
     {

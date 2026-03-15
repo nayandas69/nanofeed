@@ -1,0 +1,33 @@
+{
+  // Extend the Nuxt-generated tsconfig
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    // Strict mode
+    "strict": true,
+    "strictNullChecks": true,
+    // Module resolution
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ESNext",
+    // Allow JS imports inside TS
+    "allowJs": true,
+    // Skip lib check to speed up builds (nuxt handles them)
+    "skipLibCheck": true,
+    // Path aliases (matches nuxt.config.ts ~ alias)
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "#shared/*": ["./shared/*"]
+    }
+  },
+  "include": [
+    ".nuxt/nuxt.d.ts",
+    "app/**/*.ts",
+    "app/**/*.vue",
+    "server/**/*.ts",
+    "shared/**/*.ts",
+    "prisma/**/*.ts",
+    "nuxt.config.ts"
+  ]
+}

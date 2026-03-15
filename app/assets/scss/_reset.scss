@@ -1,0 +1,90 @@
+// =============================================================
+// NanoFeed — Modern CSS Reset
+// Based on Josh Comeau's Custom CSS Reset
+// =============================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // Smoother scrolling
+  scroll-behavior: smooth;
+  // Prevent font scaling on iOS
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  // Improve text rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // Improve line breaks
+  line-height: 1.5;
+}
+
+// Elements that don't inherit fonts by default
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+// Avoid text overflows
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+// Better image defaults
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+// Remove list styles on ul/ol with role="list"
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+// Remove default link styles
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// Remove button defaults
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+// Remove fieldset defaults
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+// Create a root stacking context
+#__nuxt {
+  isolation: isolate;
+}

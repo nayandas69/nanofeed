@@ -1,0 +1,165 @@
+// =============================================================
+// NanoFeed — SCSS Mixins & Utilities
+// =============================================================
+@use "./variables.scss" as *;
+
+// ── Responsive Breakpoints ────────────────────────────────────
+@mixin sm {
+  @media (min-width: #{$bp-sm}) { @content; }
+}
+
+@mixin md {
+  @media (min-width: #{$bp-md}) { @content; }
+}
+
+@mixin lg {
+  @media (min-width: #{$bp-lg}) { @content; }
+}
+
+@mixin xl {
+  @media (min-width: #{$bp-xl}) { @content; }
+}
+
+@mixin max-sm {
+  @media (max-width: #{$bp-sm - 1}) { @content; }
+}
+
+@mixin max-md {
+  @media (max-width: #{$bp-md - 1}) { @content; }
+}
+
+// ── Flexbox Helpers ────────────────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+// ── Text Utilities ─────────────────────────────────────────────
+// Truncate text with ellipsis after N lines
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+    overflow: hidden;
+  }
+}
+
+// ── Interactive Elements ───────────────────────────────────────
+// Smooth hover transition
+@mixin hover-transition($props: all) {
+  transition: #{$props} $transition-base;
+}
+
+// Focus ring for accessibility
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid $color-accent;
+    outline-offset: 2px;
+  }
+}
+
+// Clickable element styles
+@mixin clickable {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// ── Surface / Card ─────────────────────────────────────────────
+@mixin surface($level: 1) {
+  @if $level == 1 {
+    background: $color-surface;
+    border: 1px solid $color-border-soft;
+  } @else if $level == 2 {
+    background: $color-surface-2;
+    border: 1px solid $color-border;
+  }
+  border-radius: $radius-lg;
+}
+
+// ── Scrollbar Styling ─────────────────────────────────────────
+@mixin custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $color-surface-3 transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-surface-3;
+    border-radius: $radius-full;
+  }
+}
+
+// ── Button Base ────────────────────────────────────────────────
+@mixin btn-base {
+  @include flex-center;
+  @include clickable;
+  @include hover-transition;
+  @include focus-ring;
+  gap: $space-2;
+  padding: $space-2 $space-4;
+  border: none;
+  border-radius: $radius-full;
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ── Visually Hidden (Accessibility) ───────────────────────────
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// ── Gradient Text ─────────────────────────────────────────────
+@mixin gradient-text($from, $to) {
+  background: linear-gradient(135deg, $from, $to);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

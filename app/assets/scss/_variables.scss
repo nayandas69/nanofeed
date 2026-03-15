@@ -1,0 +1,109 @@
+// =============================================================
+// NanoFeed — SCSS Variables
+// Dark theme design tokens used across the entire application
+// =============================================================
+
+// ── Color Palette ─────────────────────────────────────────────
+// Background layers (darkest to lightest)
+$color-bg:          #0a0a0a;   // Page background
+$color-surface:     #111111;   // Cards, sidebars
+$color-surface-2:   #181818;   // Hover states, elevated surfaces
+$color-surface-3:   #222222;   // Borders, dividers
+
+// Borders
+$color-border:      #2f2f2f;
+$color-border-soft: #1f1f1f;
+
+// Text
+$color-text:        #e7e9ea;   // Primary text
+$color-text-muted:  #71767b;   // Secondary / placeholder text
+$color-text-subtle: #404040;   // Very subtle text
+
+// Brand / Accent
+$color-accent:      #1d9bf0;   // Electric blue (X-inspired)
+$color-accent-hover:#1a8cd8;
+$color-accent-soft: rgba(29, 155, 240, 0.1);
+
+// Status colors
+$color-success:     #00ba7c;
+$color-warning:     #ffad1f;
+$color-danger:      #f4212e;
+$color-danger-soft: rgba(244, 33, 46, 0.1);
+
+// Verified badge
+$color-verified:    #1d9bf0;
+
+// Owner badge
+$color-owner:       #b88bf5;   // Purple tint for owner badge
+
+// ── Typography ─────────────────────────────────────────────────
+$font-family:       'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:         'JetBrains Mono', 'Fira Code', monospace;
+
+$font-size-xs:      0.75rem;   // 12px
+$font-size-sm:      0.875rem;  // 14px
+$font-size-base:    1rem;      // 16px
+$font-size-md:      1.0625rem; // 17px
+$font-size-lg:      1.125rem;  // 18px
+$font-size-xl:      1.25rem;   // 20px
+$font-size-2xl:     1.5rem;    // 24px
+$font-size-3xl:     2rem;      // 32px
+
+$font-weight-light:   300;
+$font-weight-normal:  400;
+$font-weight-medium:  500;
+$font-weight-semibold:600;
+$font-weight-bold:    700;
+
+$line-height-base:    1.2;
+$line-height-relaxed: 1.6;
+
+// ── Spacing ────────────────────────────────────────────────────
+$space-1:  0.25rem;  // 4px
+$space-2:  0.5rem;   // 8px
+$space-3:  0.75rem;  // 12px
+$space-4:  1rem;     // 16px
+$space-5:  1.25rem;  // 20px
+$space-6:  1.5rem;   // 24px
+$space-8:  2rem;     // 32px
+$space-10: 2.5rem;   // 40px
+$space-12: 3rem;     // 48px
+$space-16: 4rem;     // 64px
+
+// ── Border Radius ─────────────────────────────────────────────
+$radius-sm:   4px;
+$radius-md:   8px;
+$radius-lg:   12px;
+$radius-xl:   16px;
+$radius-2xl:  24px;
+$radius-full: 9999px;
+
+// ── Transitions ────────────────────────────────────────────────
+$transition-fast:   0.1s ease;
+$transition-base:   0.2s ease;
+$transition-slow:   0.3s ease;
+
+// ── Layout ─────────────────────────────────────────────────────
+$sidebar-width:       275px;
+$content-max-width:   600px;
+$right-panel-width:   350px;
+
+// ── Breakpoints ────────────────────────────────────────────────
+$bp-sm:   640px;
+$bp-md:   768px;
+$bp-lg:   1024px;
+$bp-xl:   1280px;
+$bp-2xl:  1536px;
+
+// ── Shadows ────────────────────────────────────────────────────
+$shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.5);
+$shadow-md:   0 4px 12px rgba(0, 0, 0, 0.4);
+$shadow-lg:   0 8px 24px rgba(0, 0, 0, 0.5);
+$shadow-xl:   0 12px 32px rgba(0, 0, 0, 0.6);
+$shadow-glow: 0 0 20px rgba(29, 155, 240, 0.3);
+
+// ── Z-Index Scale ──────────────────────────────────────────────
+$z-dropdown:  100;
+$z-sticky:    200;
+$z-modal:     300;
+$z-toast:     400;

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Exclude private paths from indexing
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /settings/

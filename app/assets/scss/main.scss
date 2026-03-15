@@ -1,0 +1,130 @@
+// =============================================================
+// NanoFeed — Main SCSS Entry Point
+// Imports all partials and defines global styles
+// =============================================================
+
+// Partials (variables and mixins are already injected globally
+// via nuxt.config.ts vite.css.preprocessorOptions.scss.additionalData,
+// so we only import reset and base styles here)
+@use 'reset';
+
+// ── Global Base Styles ─────────────────────────────────────────
+html,
+body {
+  background-color: $color-bg;
+  color: $color-text;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: 1.5;
+  min-height: 100dvh;
+}
+
+// ── App Layout Root ─────────────────────────────────────────────
+#__nuxt {
+  min-height: 100dvh;
+}
+
+// ── Typography Defaults ─────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-bold;
+  line-height: 1.25;
+  color: $color-text;
+}
+
+h1 { font-size: $font-size-3xl; }
+h2 { font-size: $font-size-2xl; }
+h3 { font-size: $font-size-xl; }
+h4 { font-size: $font-size-lg; }
+h5 { font-size: $font-size-base; }
+h6 { font-size: $font-size-sm; }
+
+p {
+  color: $color-text;
+  line-height: 1.6;
+}
+
+// ── Link Styles ─────────────────────────────────────────────────
+a {
+  color: $color-accent;
+  @include hover-transition(color);
+
+  &:hover {
+    color: $color-accent-hover;
+  }
+}
+
+// ── Hashtag Inline Styling ──────────────────────────────────────
+.hashtag {
+  color: $color-accent;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ── Divider ─────────────────────────────────────────────────────
+.divider {
+  width: 100%;
+  height: 1px;
+  background: $color-border-soft;
+}
+
+// ── Utility Classes ─────────────────────────────────────────────
+.text-muted    { color: $color-text-muted; }
+.text-accent   { color: $color-accent; }
+.text-danger   { color: $color-danger; }
+.text-success  { color: $color-success; }
+
+.font-bold     { font-weight: $font-weight-bold; }
+.font-semibold { font-weight: $font-weight-semibold; }
+.font-medium   { font-weight: $font-weight-medium; }
+
+.text-sm  { font-size: $font-size-sm; }
+.text-xs  { font-size: $font-size-xs; }
+
+.sr-only { @include visually-hidden; }
+
+// ── Loading Spinner ────────────────────────────────────────────
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid $color-surface-3;
+  border-top-color: $color-accent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Fade Transition ────────────────────────────────────────────
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition-base;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// ── Slide Up Transition ────────────────────────────────────────
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all $transition-slow;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+// ── Custom Scrollbars (global) ─────────────────────────────────
+html {
+  @include custom-scrollbar;
+}

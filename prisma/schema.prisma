@@ -1,0 +1,251 @@
+// prisma/schema.prisma
+// NanoFeed — Database Schema
+// PostgreSQL + Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ──────────────────────────────────────────────────────
+
+/// User role — determines access level in the application
+enum Role {
+  USER  // Standard user (default)
+  OWNER // Project owner — can access the dashboard
+}
+
+/// Verification request status
+enum VerificationStatus {
+  PENDING  // Awaiting review
+  ACCEPTED // Verification approved — user.verified = true
+  REJECTED // Verification denied
+}
+
+/// Report reason categories
+enum ReportReason {
+  SPAM
+  HARASSMENT
+  ILLEGAL_CONTENT
+  OTHER
+}
+
+/// Report status (for owner workflow)
+enum ReportStatus {
+  OPEN     // Awaiting review
+  RESOLVED // Owner has taken action
+  DISMISSED // Owner dismissed the report
+}
+
+// ── Models ─────────────────────────────────────────────────────
+
+/// User account — tied to GitHub identity
+model User {
+  id          String   @id @default(cuid())
+
+  // GitHub identity (immutable after creation)
+  githubId    String   @unique @map("github_id")
+  email       String   @unique
+
+  // Customizable fields
+  username    String   @unique
+  displayName String   @map("display_name")
+  avatar      String   // URL — defaults to GitHub avatar
+
+  // Optional profile data
+  bio         String?
+
+  // Role and verification
+  role        Role     @default(USER)
+  verified    Boolean  @default(false)
+  verificationRemovedAt DateTime? @map("verification_removed_at")
+
+  // Restriction
+  isRestricted Boolean   @default(false) @map("is_restricted")
+  restrictionNote String? @db.Text @map("restriction_note")
+
+  // Timestamps
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  posts                Post[]
+  verificationRequests VerificationRequest[]
+  reportsMade          Report[]              @relation("ReporterRelation")
+  reportsReceived      Report[]              @relation("ReportedUserRelation")
+  reactions            Reaction[]
+
+  // Social
+  following           Follow[] @relation("FollowingRelation")
+  followers           Follow[] @relation("FollowerRelation")
+
+  // Auth.js adapter relations
+  accounts Account[]
+  sessions Session[]
+
+  @@map("users")
+}
+
+/// Follow — tracks user relationships
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String   @map("follower_id")
+  follower    User     @relation("FollowingRelation", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String   @map("following_id")
+  following   User     @relation("FollowerRelation", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+/// Post — text-only, max 280 characters
+model Post {
+  id        String   @id @default(cuid())
+  content   String   @db.VarChar(280)
+  hidden    Boolean  @default(false) // Added/Ensured this field
+
+  // Author relation
+  authorId  String   @map("author_id")
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Social & Moderation
+  parentId  String?  @map("parent_id")
+  parent    Post?    @relation("PostReplies", fields: [parentId], references: [id])
+  replies   Post[]    @relation("PostReplies")
+
+  // Relations
+  hashtags  Hashtag[]  @relation("PostHashtags")
+  reports   Report[]
+  reactions Reaction[]
+
+  @@map("posts")
+}
+
+/// Reaction — users can "love" posts
+model Reaction {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String   @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([userId, postId])
+  @@map("reactions")
+}
+
+/// Hashtag — parsed from post content (#tag)
+model Hashtag {
+  id        String   @id @default(cuid())
+  tag       String   @unique // stored lowercase without leading #
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  posts Post[] @relation("PostHashtags")
+
+  @@map("hashtags")
+}
+
+/// Verification request — users apply for a verified badge
+model VerificationRequest {
+  id       String             @id @default(cuid())
+  userId   String             @map("user_id")
+  user     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Submitted info
+  realName String             @map("real_name")
+  email    String
+  reason   String             @db.Text
+
+  // Status lifecycle
+  status   VerificationStatus @default(PENDING)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("verification_requests")
+}
+
+/// Report — users can report posts or other users
+model Report {
+  id String @id @default(cuid())
+
+  // Who filed the report
+  reporterId String @map("reporter_id")
+  reporter   User   @relation("ReporterRelation", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  // What is being reported (one of these must be set)
+  postId         String? @map("post_id")
+  post           Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  reportedUserId String? @map("reported_user_id")
+  reportedUser   User?   @relation("ReportedUserRelation", fields: [reportedUserId], references: [id], onDelete: Cascade)
+
+  // Report details
+  reason ReportReason
+  notes  String?      @db.Text
+
+  // Status
+  status ReportStatus @default(OPEN)
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("reports")
+}
+
+// ── Auth.js Adapter Models ─────────────────────────────────────
+// Required by @auth/prisma-adapter for session management
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}

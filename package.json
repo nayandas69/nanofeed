@@ -1,0 +1,51 @@
+{
+  "name": "nanofeed",
+  "version": "1.0.0",
+  "description": "A minimal, text-based developer micro social network",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "nayan-labs",
+    "url": "https://github.com/nayan-labs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nayan-labs/nanofeed"
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "node scripts/fix-next-auth.js && prisma generate && nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@auth/core": "^0.41.1",
+    "@auth/prisma-adapter": "^2.8.0",
+    "@hebilicious/authjs-nuxt": "^0.3.5",
+    "@nuxt/image": "^1.10.0",
+    "@prisma/client": "^6.5.0",
+    "@vueuse/nuxt": "^11.3.0",
+    "nuxt": "^4.0.0",
+    "prisma": "^6.5.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^2.3.0",
+    "@nuxt/eslint": "^1.3.0",
+    "@types/node": "^22.13.10",
+    "sass": "^1.86.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

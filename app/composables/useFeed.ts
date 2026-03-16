@@ -14,8 +14,7 @@ export const useFeed = () => {
 
   const { data, status, refresh: fetchRefresh, error } = useFetch('/api/feed', {
     query: computed(() => ({ page: page.value, pageSize: pageSize.value })),
-    // We don't watch page/pageSize here because we handle the update manually
-    // to avoid double fetching or weird behavior with the accumulation
+    watch: [page],
   })
 
   // Watch for new data and append it

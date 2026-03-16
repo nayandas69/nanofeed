@@ -147,7 +147,7 @@ const onPostDeleted = async () => {
   margin: 0 $space-4;
 }
 
-:deep(.feed-list) {
+:deep(.nf-feed-list) {
   display: flex;
   flex-direction: column;
   gap: $space-4;

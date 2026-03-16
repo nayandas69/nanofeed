@@ -10,32 +10,45 @@ import type { PaginatedPosts } from '#shared/types/post'
 export const useFeed = () => {
   const page = ref(1)
   const pageSize = ref(20)
+  const posts = ref<any[]>([])
 
-  const { data, status, refresh, error } = useFetch('/api/feed', {
+  const { data, status, refresh: fetchRefresh, error } = useFetch('/api/feed', {
     query: computed(() => ({ page: page.value, pageSize: pageSize.value })),
-    watch: [page, pageSize],
+    // We don't watch page/pageSize here because we handle the update manually
+    // to avoid double fetching or weird behavior with the accumulation
   })
 
+  // Watch for new data and append it
+  watch(data, (newData: any) => {
+    const newPosts = newData?.data?.posts ?? []
+    if (page.value === 1) {
+      posts.value = newPosts
+    } else {
+      // Functional deduplication based on ID
+      const existingIds = new Set(posts.value.map(p => p.id))
+      const filteredNewPosts = newPosts.filter((p: any) => !existingIds.has(p.id))
+      posts.value = [...posts.value, ...filteredNewPosts]
+    }
+  }, { immediate: true })
+
   const feed = computed<PaginatedPosts | null>(() => {
-    const d = data.value as { data?: PaginatedPosts } | null
+    const d = data.value as unknown as { data?: PaginatedPosts } | null
     return d?.data ?? null
   })
 
-  const posts = computed(() => feed.value?.posts ?? [])
   const hasMore = computed(() => feed.value?.hasMore ?? false)
   const total = computed(() => feed.value?.total ?? 0)
   const isLoading = computed(() => status.value === 'pending')
 
   const nextPage = () => {
-    if (hasMore.value) page.value++
+    if (hasMore.value && !isLoading.value) {
+      page.value++
+    }
   }
 
-  const prevPage = () => {
-    if (page.value > 1) page.value--
-  }
-
-  const goToPage = (p: number) => {
-    page.value = p
+  const refresh = async () => {
+    page.value = 1
+    await fetchRefresh()
   }
 
   return {
@@ -49,7 +62,5 @@ export const useFeed = () => {
     error,
     refresh,
     nextPage,
-    prevPage,
-    goToPage,
   }
 }

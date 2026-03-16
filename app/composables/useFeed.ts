@@ -15,6 +15,10 @@ export const useFeed = () => {
   const { data, status, refresh: fetchRefresh, error } = useFetch('/api/feed', {
     query: computed(() => ({ page: page.value, pageSize: pageSize.value })),
     watch: [page],
+    // lazy: skip immediate client re-fetch when SSR already delivered the data.
+    // This prevents a hydration flash where posts disappear then reappear, which
+    // was triggering the broken TransitionGroup position:absolute layout bug.
+    lazy: true,
   })
 
   // Watch for new data and handle pagination properly

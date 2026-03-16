@@ -35,6 +35,7 @@ import PostComposeModal from '../components/post/PostComposeModal.vue'
 .nf-main-content {
   flex: 1;
   min-width: 0; // Essential for preventing text overflow from blowing out flex children
+  overflow: hidden; // Safety net: prevent any animated element from escaping the column
   border-left: 1px solid $color-border-soft;
   border-right: 1px solid $color-border-soft;
   // Account for mobile nav at bottom on small screens

@@ -1,6 +1,6 @@
 <!--
   app/components/feed/FeedList.vue
-  NanoFeed — List renderer for feeds with transitions
+  NanoFeed — List renderer for feeds
 -->
 <script setup lang="ts">
 import FeedItem from './FeedItem.vue'
@@ -28,14 +28,16 @@ const emit = defineEmits<{
     </div>
 
     <template v-else>
-      <TransitionGroup name="list" tag="div" class="feed-items-container">
+      <!-- Plain div replaces TransitionGroup to avoid position:absolute escaping container on refresh -->
+      <div class="feed-items-container">
         <FeedItem
           v-for="post in posts"
           :key="post.id"
           :post="post"
+          class="feed-item-animate"
           @deleted="emit('deleted', $event)"
         />
-      </TransitionGroup>
+      </div>
     </template>
   </div>
 </template>
@@ -45,13 +47,13 @@ const emit = defineEmits<{
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: hidden; // Safety net: prevent any child from escaping this column
 }
 
 .feed-items-container {
   display: flex;
   flex-direction: column;
   gap: $space-4;
-  position: relative; // Contains absolute children during list-leave transitions
 }
 
 .feed-loading, .feed-empty {
@@ -61,25 +63,19 @@ const emit = defineEmits<{
   text-align: center;
 }
 
-// Vue Transition Group Styles for smooth entry/exit
-.list-enter-active,
-.list-leave-active,
-.list-move {
-  transition: all $transition-base;
+// Simple fade-in animation for posts as they arrive — no position changes
+.feed-item-animate {
+  animation: post-fade-in 0.25s ease-out both;
 }
 
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(-20px); // Slide down when new posts appear at top
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px); // Slide out right when deleted
-}
-
-.list-leave-active {
-  position: absolute; // Ensure smooth layout recalculation
-  width: 100%; // Prevent shrinking during leave transition
+@keyframes post-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

@@ -80,5 +80,6 @@ const emit = defineEmits<{
 
 .list-leave-active {
   position: absolute; // Ensure smooth layout recalculation
+  width: 100%; // Prevent shrinking during leave transition
 }
 </style>

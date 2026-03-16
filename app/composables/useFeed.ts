@@ -19,10 +19,12 @@ export const useFeed = () => {
 
   // Watch for new data and append it
   watch(data, (newData: any) => {
+    if (!newData?.success) return
+    
     const newPosts = newData?.data?.posts ?? []
     if (page.value === 1) {
       posts.value = newPosts
-    } else {
+    } else if (newPosts.length > 0) {
       // Functional deduplication based on ID
       const existingIds = new Set(posts.value.map(p => p.id))
       const filteredNewPosts = newPosts.filter((p: any) => !existingIds.has(p.id))

@@ -98,6 +98,8 @@ const navigateToProfile = () => {
   backdrop-filter: blur(10px);
   border-radius: $radius-xl;
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
   @include hover-transition(all);
 
   &:hover {

@@ -8,9 +8,9 @@
 import type { PaginatedPosts } from '#shared/types/post'
 
 export const useFeed = () => {
-  const page = ref(1)
-  const pageSize = ref(20)
-  const posts = ref<any[]>([])
+  const page = useState<number>('feed-page', () => 1)
+  const pageSize = useState<number>('feed-page-size', () => 20)
+  const posts = useState<any[]>('feed-posts', () => [])
 
   const { data, status, refresh: fetchRefresh, error } = useFetch('/api/feed', {
     query: computed(() => ({ page: page.value, pageSize: pageSize.value })),

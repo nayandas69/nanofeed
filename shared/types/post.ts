@@ -20,6 +20,7 @@ export interface Post {
 export interface PostWithAuthor extends Post {
   author: PublicUser
   hashtags: { tag: string }[]
+  hasReacted?: boolean
   _count?: {
     replies: number
     reactions: number

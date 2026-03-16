@@ -25,8 +25,14 @@ const canDelete = computed(() => isAuthor.value || isOwner.value)
 
 // Reaction Logic
 const reactionCount = ref(props.post._count?.reactions || 0)
-const hasReacted = ref(false) // In a real app, this should come from the server-side post data
+const hasReacted = ref(props.post.hasReacted || false)
 const isReacting = ref(false)
+
+// Keep local state in sync with props
+watch(() => props.post.id, () => {
+  hasReacted.value = props.post.hasReacted || false
+  reactionCount.value = props.post._count?.reactions || 0
+})
 
 const handleReact = async () => {
   if (!isAuthenticated.value || isReacting.value) return

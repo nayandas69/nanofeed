@@ -117,7 +117,9 @@ const openFollowList = (type: 'followers' | 'following') => {
         <div class="name-row">
           <h2 class="display-name">{{ profileUser.displayName }}</h2>
           <VerificationBadge
+            class="profile-badges"
             all
+            flip-on-interaction
             :is-owner="profileUser.role === 'OWNER'"
             :is-verified="profileUser.verified"
             :is-contributor="!!profileUser.contributorCommit"
@@ -191,6 +193,31 @@ const openFollowList = (type: 'followers' | 'following') => {
 <style lang="scss" scoped>
 .nf-profile-header {
   border-bottom: 1px solid $color-border-soft;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .profile-badges :deep(.nf-badge) {
+    animation: badge-reveal 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .profile-badges :deep(.nf-badge:nth-child(2)) {
+    animation-delay: 120ms;
+  }
+
+  .profile-badges :deep(.nf-badge:nth-child(3)) {
+    animation-delay: 240ms;
+  }
+
+  @keyframes badge-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.86);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 }
 
 .profile-banner {

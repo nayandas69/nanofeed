@@ -7,12 +7,14 @@ interface Props {
   variant?: 'verified' | 'owner' | 'contributor' | 'default' | 'success' | 'warning' | 'danger'
   text?: string
   iconOnly?: boolean
+  flipOnInteraction?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
   text: '',
   iconOnly: false,
+  flipOnInteraction: false,
 })
 const label = computed(
   () =>
@@ -27,10 +29,30 @@ const label = computed(
 )
 const tooltipOpen = ref(false)
 const hasTooltip = computed(() => ['verified', 'owner', 'contributor'].includes(props.variant))
+let flipAnimation: Animation | undefined
+function flipIcon(event: Event) {
+  if (!props.flipOnInteraction || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    return
+  const badge = event.currentTarget
+  if (!(badge instanceof HTMLElement)) return
+  const icon = badge.querySelector('svg')
+  if (!icon || typeof icon.animate !== 'function') return
+  flipAnimation?.cancel()
+  flipAnimation = icon.animate(
+    [
+      { transform: 'perspective(240px) rotateY(0deg) scale(1)' },
+      { transform: 'perspective(240px) rotateY(180deg) scale(1.12)' },
+      { transform: 'perspective(240px) rotateY(360deg) scale(1)' },
+    ],
+    { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+  )
+}
+onBeforeUnmount(() => flipAnimation?.cancel())
 function toggleTooltip(event: Event) {
   if (!hasTooltip.value) return
   event.preventDefault()
   event.stopPropagation()
+  flipIcon(event)
   tooltipOpen.value = !tooltipOpen.value
 }
 </script>
@@ -44,6 +66,7 @@ function toggleTooltip(event: Event) {
     :tabindex="hasTooltip ? 0 : undefined"
     :role="hasTooltip ? 'button' : undefined"
     :aria-expanded="hasTooltip ? tooltipOpen : undefined"
+    @mouseenter="flipIcon"
     @click="toggleTooltip"
     @keydown.enter="toggleTooltip"
     @keydown.space="toggleTooltip"
@@ -69,11 +92,11 @@ function toggleTooltip(event: Event) {
       fill="none"
       stroke="currentColor"
       stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
       aria-hidden="true"
     >
-      <path d="M8 3v11a3 3 0 1 0 2 2.83V9a5 5 0 0 0 6-5" />
-      <circle cx="8" cy="3" r="2" />
-      <circle cx="16" cy="4" r="2" />
+      <path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16" />
     </svg>
 
     <!-- Owner Crown -->
@@ -138,7 +161,7 @@ function toggleTooltip(event: Event) {
   }
 
   &.variant-contributor {
-    color: #8bd5ca;
+    color: #ff6b6b;
     background-color: transparent;
   }
 

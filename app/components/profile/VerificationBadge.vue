@@ -13,6 +13,7 @@ const props = defineProps<{
   isContributor?: boolean
   badgeOrder?: readonly string[] | null
   all?: boolean
+  flipOnInteraction?: boolean
 }>()
 const badges = computed(() => {
   const earned = orderedBadges({
@@ -32,6 +33,7 @@ const badges = computed(() => {
       :key="badge"
       :variant="badge"
       :text="badgeLabels[badge]"
+      :flip-on-interaction="flipOnInteraction"
       icon-only
     />
   </div>

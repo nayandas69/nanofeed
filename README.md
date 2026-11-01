@@ -18,7 +18,7 @@ The live [NanoFeed home page](https://nanofeed.vercel.app/) directs visitors to 
 
 ### Profile
 
-The live [@nayandas69 profile](https://nanofeed.vercel.app/profile/nayandas69) shows a profile and its earned badges.
+This screenshot shows a public profile with synthetic demo data from a local production build.
 
 ![Public NanoFeed profile with badges](docs/assets/screenshots/profile.png)
 
@@ -37,15 +37,47 @@ The feed requires sign-in. This screenshot uses a local production build with sy
 ## Architecture
 
 ```mermaid
-flowchart LR
-    Browser[Browser · Nuxt and Vue] -->|HTTPS| Server[Nuxt server routes]
-    Server -->|OAuth sign-in and commit verification| GitHub[GitHub]
-    Server -->|Prisma PostgreSQL adapter| Database[(PostgreSQL / Neon)]
-    Server -->|Self-hosted challenge| RootCap[RootCap]
-    Docs[Markdown guides] -->|Build| Browser
+flowchart TB
+    User["Visitors and members"] --> App
+
+    subgraph Browser["Browser · Nuxt and Vue"]
+        App["Feed, profiles, posts, search, settings and owner dashboard"]
+        Widget["RootCap challenge widget"]
+        Guides["Documentation pages"]
+    end
+
+    subgraph Server["Nuxt / Nitro server"]
+        Guard["Auth, CSRF, rate limits and maintenance"]
+        Routes["Social, moderation, verification and notification APIs"]
+        Features["Recommendations and notifications"]
+        Auth["Better Auth and RootCap verification"]
+        Contributor["Contributor verification"]
+        Cleanup["Scheduled data cleanup"]
+        Prisma["Prisma PostgreSQL adapter"]
+    end
+
+    App -->|HTTPS| Guard
+    Widget -->|Challenge and proof| Auth
+    Guard --> Routes
+    Guard --> Auth
+    Routes --> Features
+    Routes --> Contributor
+    Routes --> Prisma
+    Features --> Prisma
+    Auth --> Prisma
+    Contributor --> Prisma
+    Cleanup --> Prisma
+    Prisma --> DB[("PostgreSQL / Neon")]
+    Auth --> GitHub["GitHub OAuth and commit API"]
+    Contributor --> GitHub
+    Docs["Markdown guides"] -->|Nuxt build| Guides
+    Cron["Vercel Cron or authorized scheduler"] --> Cleanup
+    CI["GitHub Actions CI"] --> Deploy["Manual production deployment"]
+    Deploy -->|Build and deploy| Server
+    Deploy -->|Prisma migrations| DB
 ```
 
-The browser renders the application; the Nuxt server handles authentication, feed operations, and database access. GitHub provides sign-in and contributor commit data. RootCap verifies sign-in challenges, and Markdown guides are bundled at build time.
+The browser talks to Nuxt server routes. Better Auth and RootCap handle GitHub sign-in, while Prisma stores application data in PostgreSQL. Recommendations run in the server; documentation is bundled from Markdown during the build.
 
 ## User guides
 
@@ -105,7 +137,7 @@ node --env-file=.env .output/server/index.mjs
 NITRO_PRESET=vercel npm run build # Vercel output
 ```
 
-See [deployment and environment setup](docs/DEPLOYMENT.md), [recommendation design](docs/RECOMMENDATIONS.md), and [upgrade notes](docs/UPGRADES.md). GitHub Actions has exactly two workflows: CI and a manually dispatched production CD workflow that runs CI before migration/deployment.
+See [deployment and environment setup](docs/DEPLOYMENT.md), [recommendation design](docs/RECOMMENDATIONS.md), and [upgrade notes](docs/UPGRADES.md). GitHub Actions includes CI, a manually dispatched production deployment that runs CI before migration/deployment, and a scheduled or manually dispatched keepalive workflow.
 
 ## Publish documentation
 

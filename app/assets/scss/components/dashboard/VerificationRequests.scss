@@ -1,0 +1,152 @@
+.nf-verification-requests {
+  padding: $space-4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-bar {
+  display: flex;
+  gap: $space-2;
+  margin-bottom: $space-4;
+  background-color: $color-surface-2;
+  padding: $space-1;
+  border-radius: $radius-lg;
+  width: fit-content;
+
+  .filter-btn {
+    padding: $space-2 $space-4;
+    border: none;
+    border-radius: $radius-md;
+    background: transparent;
+    color: $color-text-muted;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $color-text;
+    }
+
+    &.active {
+      background-color: $color-surface-3;
+      color: $color-accent;
+      box-shadow: $shadow-sm;
+    }
+  }
+}
+
+.loading-state,
+.empty-state {
+  flex: 1;
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-10;
+  color: $color-text-muted;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  overflow-y: auto;
+  padding-right: $space-2;
+}
+
+.request-card {
+  @include surface(2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid $color-border-soft;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $space-4;
+  border-bottom: 1px solid $color-border-soft;
+  background-color: rgba($color-bg, 0.3);
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+  }
+
+  .names {
+    display: flex;
+    flex-direction: column;
+
+    .display-name {
+      font-weight: $font-weight-bold;
+    }
+    .username {
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+    }
+  }
+
+  .meta-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $space-2;
+
+    .date {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+  }
+}
+
+.request-body {
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  .detail-row {
+    font-size: $font-size-sm;
+
+    .label {
+      color: $color-text-muted;
+      margin-right: $space-2;
+      font-weight: $font-weight-medium;
+    }
+
+    .value {
+      color: $color-text;
+    }
+
+    &.reason {
+      margin-top: $space-2;
+
+      .label {
+        display: block;
+        margin-bottom: $space-1;
+      }
+      .value {
+        background-color: $color-bg;
+        padding: $space-3;
+        border-radius: $radius-sm;
+        border: 1px solid $color-border-soft;
+        margin: 0;
+        white-space: pre-wrap;
+        font-size: $font-size-xs;
+      }
+    }
+  }
+}
+
+.request-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-top: 1px solid $color-border-soft;
+  background-color: rgba($color-bg, 0.2);
+}

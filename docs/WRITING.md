@@ -60,7 +60,7 @@ npm run dev
 
 Fenced code blocks display a language header and a **Copy** button on the docs website. Include a language after the opening fence, such as `bash`, `typescript`, `json`, or `text`. Copying includes only the code, preserving newlines. Unlabelled blocks display `text`. If clipboard access is unavailable, select and copy the code manually.
 
-Long code blocks and tables scroll within the article on small screens. Images should have descriptive alt text. Do not publish real database URLs, credentials, tokens, or user data.
+Long code blocks and tables scroll within the article on small screens. Images should have descriptive alt text. For screenshots that work on GitHub and the docs website, put files in `public/docs/screenshots/` and use a relative Markdown path, for example `![Description](../public/docs/screenshots/home.png)`. The docs compiler serves that path from `/docs/screenshots/`. Use synthetic data, and do not publish real database URLs, credentials, tokens, or user data.
 
 ## Link to other guides
 

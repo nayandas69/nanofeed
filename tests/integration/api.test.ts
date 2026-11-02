@@ -148,6 +148,14 @@ describe('built production HTTP server', () => {
       })
     expect((await verify({ padding: 'x'.repeat(20_000) })).status).toBe(413)
     expect((await verify({ token: challenge.token, solutions: [] })).status).toBe(403)
+    expect(
+      (
+        await verify({
+          token: challenge.token,
+          solutions: [solutions[0]! + 0.5, ...solutions.slice(1)],
+        })
+      ).status,
+    ).toBe(403)
     const verified = await verify({ token: challenge.token, solutions })
     expect(verified.status).toBe(200)
     const { token } = (await verified.json()) as { token: string }

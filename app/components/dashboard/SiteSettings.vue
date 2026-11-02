@@ -79,29 +79,4 @@ async function save() {
   <p v-else role="alert">Could not load site settings. Refresh and try again.</p>
 </template>
 
-<style lang="scss" scoped>
-.site-settings {
-  display: grid;
-  gap: $space-4;
-  padding: $space-4;
-}
-label {
-  display: flex;
-  gap: $space-2;
-  align-items: center;
-}
-textarea,
-input[type='datetime-local'] {
-  color: $color-text;
-  background: $color-surface-2;
-  border: 1px solid $color-border-soft;
-  padding: $space-3;
-}
-.hint {
-  color: $color-text-muted;
-  font-size: $font-size-sm;
-}
-:deep(.nf-btn) {
-  justify-self: start;
-}
-</style>
+<style src="~/assets/scss/components/dashboard/SiteSettings.scss" lang="scss" scoped></style>

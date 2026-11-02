@@ -16,7 +16,7 @@ $color-border-soft: #1f1f1f;
 
 // Text
 $color-text: #e7e9ea; // Primary text
-$color-text-muted: #71767b; // Secondary / placeholder text
+$color-text-muted: #9aa0a6; // Secondary / placeholder text
 $color-text-subtle: #404040; // Very subtle text
 
 // Brand / Accent
@@ -92,6 +92,7 @@ $transition-slow: 0.3s ease;
 $sidebar-width: 275px;
 $content-max-width: 600px;
 $right-panel-width: 350px;
+$app-navbar-height: calc(53px + env(safe-area-inset-top, 0px));
 
 // ── Breakpoints ────────────────────────────────────────────────
 $bp-sm: 640px;

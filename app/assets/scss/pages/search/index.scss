@@ -1,0 +1,146 @@
+.page-search {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  min-height: 100vh;
+  border-left: 1px solid $color-border-soft;
+  border-right: 1px solid $color-border-soft;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-header {
+  padding: $space-4;
+  background-color: rgba($color-bg, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: $app-navbar-height;
+  z-index: $z-sticky;
+}
+
+.search-tabs {
+  display: flex;
+  border-bottom: 1px solid $color-border-soft;
+
+  .tab-btn {
+    flex: 1;
+    padding: $space-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-muted;
+    background: none;
+    border: none;
+    position: relative;
+    @include hover-transition(color);
+
+    &:hover {
+      background-color: $color-surface-2;
+      color: $color-text;
+    }
+
+    &.is-active {
+      color: $color-text;
+      font-weight: $font-weight-bold;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 20%;
+        right: 20%;
+        height: 4px;
+        background-color: $color-accent;
+        border-radius: $radius-full;
+      }
+    }
+  }
+}
+
+.search-results {
+  padding: $space-4 0;
+}
+
+.loading-state,
+.empty-state {
+  padding: $space-12 $space-4;
+  text-align: center;
+  color: $color-text-muted;
+  font-size: $font-size-md;
+}
+
+.result-section {
+  margin-bottom: $space-8;
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    padding: 0 $space-4;
+    margin-bottom: $space-4;
+  }
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 $space-4;
+    text-decoration: none;
+    color: inherit;
+    @include hover-transition(background-color);
+
+    &:hover {
+      background-color: $color-surface-2;
+    }
+
+    .user-info {
+      .name-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .name {
+          font-weight: $font-weight-bold;
+          font-size: $font-size-sm;
+        }
+      }
+
+      .handle {
+        color: $color-text-muted;
+        font-size: $font-size-sm;
+      }
+    }
+  }
+}
+
+.hashtag-list {
+  display: flex;
+  flex-direction: column;
+
+  .tag-card {
+    display: flex;
+    flex-direction: column;
+    padding: $space-3 $space-4;
+    text-decoration: none;
+    @include hover-transition(background-color);
+
+    &:hover {
+      background-color: $color-surface-2;
+    }
+
+    .tag-name {
+      font-weight: $font-weight-bold;
+      color: $color-text;
+    }
+
+    .tag-count {
+      font-size: $font-size-xs;
+      color: $color-text-muted;
+    }
+  }
+}

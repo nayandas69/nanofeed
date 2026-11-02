@@ -8,9 +8,4 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-.nf-blank-layout {
-  min-height: 100vh;
-  background-color: $color-bg;
-}
-</style>
+<style src="~/assets/scss/layouts/blank.scss" lang="scss" scoped></style>

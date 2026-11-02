@@ -1,0 +1,64 @@
+.nf-btn {
+  @include btn-base;
+
+  @include max-sm {
+    min-height: 44px;
+  }
+
+  &.is-block {
+    width: 100%;
+  }
+
+  // Sizes
+  &.size-sm {
+    padding: $space-1 $space-3;
+    font-size: $font-size-xs;
+  }
+
+  &.size-md {
+    padding: $space-2 $space-4;
+    font-size: $font-size-sm;
+  }
+
+  &.size-lg {
+    padding: $space-3 $space-6;
+    font-size: $font-size-base;
+  }
+
+  // Variants
+  &.variant-primary {
+    background-color: $color-accent;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background-color: $color-accent-hover;
+    }
+  }
+
+  &.variant-secondary {
+    background-color: $color-text;
+    color: $color-bg;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+  }
+
+  &.variant-danger {
+    background-color: $color-danger;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+  }
+
+  &.variant-ghost {
+    background-color: transparent;
+    color: $color-text;
+
+    &:hover:not(:disabled) {
+      background-color: $color-surface-2;
+    }
+  }
+}

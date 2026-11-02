@@ -29,45 +29,4 @@ const handleClearError = () => clearError({ redirect: '/' })
   </div>
 </template>
 
-<style lang="scss" scoped>
-.nf-global-error {
-  @include flex-center;
-  min-height: 100vh;
-  padding: $space-4;
-  background-color: $color-bg;
-  color: $color-text;
-  font-family: inherit; // Picks up app font if loaded, though error.vue can be outside standard tree sometimes
-}
-
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: $space-4;
-  max-width: 500px;
-}
-
-.status-code {
-  font-size: 6rem;
-  font-weight: 900;
-  line-height: 1;
-  color: $color-accent;
-  text-shadow: 0 0 20px rgba($color-accent, 0.4);
-}
-
-h1 {
-  font-size: $font-size-2xl;
-  margin: 0;
-}
-
-.message {
-  font-size: $font-size-lg;
-  color: $color-text-muted;
-  margin: 0;
-}
-
-.actions {
-  margin-top: $space-6;
-}
-</style>
+<style src="~/assets/scss/error.scss" lang="scss" scoped></style>

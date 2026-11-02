@@ -1,0 +1,73 @@
+.nf-badge {
+  position: relative;
+  .badge-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background: #222;
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 4px;
+    z-index: 20;
+  }
+  &:hover .badge-tooltip,
+  &:focus .badge-tooltip,
+  &.tooltip-open .badge-tooltip {
+    display: block;
+  }
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  border-radius: $radius-sm;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &:not(.icon-only) {
+    padding: 2px 6px;
+  }
+
+  &.variant-verified {
+    color: $color-verified;
+    background-color: transparent;
+  }
+
+  &.variant-contributor {
+    color: #ff6b6b;
+    background-color: transparent;
+  }
+
+  &.variant-owner {
+    color: $color-owner;
+    background-color: transparent;
+  }
+
+  &.variant-default {
+    background-color: $color-surface-3;
+    color: $color-text;
+  }
+
+  &.variant-success {
+    background-color: rgba($color-success, 0.2);
+    color: $color-success;
+  }
+
+  &.variant-warning {
+    background-color: rgba($color-warning, 0.2);
+    color: $color-warning;
+  }
+
+  &.variant-danger {
+    background-color: rgba($color-danger, 0.2);
+    color: $color-danger;
+  }
+}

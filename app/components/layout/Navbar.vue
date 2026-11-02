@@ -20,7 +20,6 @@ withDefaults(defineProps<Props>(), {
 
 const { user, isAuthenticated, logout } = useNanoAuth()
 const router = useRouter()
-onMounted(() => {})
 
 const onClickBack = () => {
   if (import.meta.client && window.history.length > 1) {
@@ -64,19 +63,19 @@ const handleLogout = async () => {
       </button>
 
       <!-- User Avatar Section (Mobile only) -->
-      <div v-else-if="isAuthenticated && user" class="mobile-avatar-wrapper">
-        <UiAvatar
-          :src="user.avatar"
-          :alt="user.username"
-          size="sm"
-          class="mobile-avatar"
-          title="Account"
+      <div v-else-if="isAuthenticated && user" ref="logoutMenuRef" class="mobile-avatar-wrapper">
+        <button
+          class="avatar-btn"
+          aria-label="Account menu"
+          :aria-expanded="showLogoutMenu"
           @click="showLogoutMenu = !showLogoutMenu"
-        />
+        >
+          <UiAvatar :src="user.avatar" :alt="user.username" size="sm" class="mobile-avatar" />
+        </button>
 
         <!-- Logout Menu Dropdown -->
         <Transition name="slide-up">
-          <div v-if="showLogoutMenu" ref="logoutMenuRef" class="logout-dropdown">
+          <div v-if="showLogoutMenu" class="logout-dropdown">
             <button class="logout-btn" @click="handleLogout">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,143 +108,4 @@ const handleLogout = async () => {
   </header>
 </template>
 
-<style lang="scss" scoped>
-.nf-navbar {
-  position: sticky;
-  top: 0;
-  z-index: $z-fixed;
-  height: 53px;
-  padding: 0 $space-4;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: rgba($color-bg, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid $color-border-soft;
-
-  // Visual consistency for 3 columns even if slots are empty
-  .left,
-  .right {
-    display: flex;
-    align-items: center;
-    width: 60px;
-    height: 100%;
-  }
-
-  .right {
-    justify-content: flex-end;
-    width: auto;
-    min-width: 60px;
-    gap: $space-3;
-    flex-shrink: 0;
-  }
-  .title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
-    margin: 0;
-    @include truncate;
-    flex: 1;
-    text-align: center;
-  }
-}
-
-.docs-link {
-  font-size: $font-size-xs;
-  text-decoration: none;
-}
-
-.navbar-search {
-  flex: 1;
-  margin: 0 $space-2;
-  @include flex-center;
-  max-width: 400px;
-}
-
-.icon-btn {
-  @include flex-center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  color: $color-text;
-  position: relative;
-  @include hover-transition(background-color);
-
-  &:hover {
-    background-color: $color-surface-2;
-  }
-
-  &.notif-btn {
-    margin-left: auto;
-  }
-
-  .badge {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    background-color: $color-accent;
-    color: white;
-    font-size: 10px;
-    font-weight: $font-weight-bold;
-    padding: 2px 5px;
-    border-radius: $radius-full;
-    border: 2px solid $color-bg;
-    line-height: 1;
-  }
-}
-
-.mobile-avatar-wrapper {
-  position: relative;
-  display: none;
-
-  @include max-sm {
-    display: block;
-  }
-}
-
-.mobile-avatar {
-  cursor: pointer;
-}
-
-.logout-dropdown {
-  position: absolute;
-  top: calc(100% + $space-2);
-  left: 0;
-  background-color: $color-surface-2;
-  border: 1px solid $color-border;
-  border-radius: $radius-xl;
-  box-shadow: $shadow-xl;
-  padding: $space-2;
-  z-index: $z-dropdown;
-  min-width: 180px;
-
-  .logout-btn {
-    @include flex-center;
-    justify-content: flex-start;
-    gap: $space-2;
-    width: 100%;
-    padding: $space-2 $space-3;
-    border-radius: $radius-md;
-    color: $color-text;
-    font-weight: $font-weight-bold;
-    font-size: $font-size-xs;
-    @include hover-transition(background-color);
-
-    &:hover {
-      background-color: rgba($color-danger, 0.1);
-      color: $color-danger;
-    }
-  }
-}
-
-// On desktop, the title typically goes to the left rather than center
-@include md {
-  .title {
-    text-align: left;
-    margin-left: $space-4; // space from back button if present
-  }
-
-  .nf-navbar {
-    justify-content: flex-start;
-  }
-}
-</style>
+<style src="~/assets/scss/components/layout/Navbar.scss" lang="scss" scoped></style>

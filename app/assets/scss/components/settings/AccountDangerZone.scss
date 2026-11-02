@@ -1,0 +1,354 @@
+.danger-zone {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  padding: $space-4;
+}
+
+.lifecycle-error {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  background: rgba($color-danger, 0.1);
+  border: 1px solid rgba($color-danger, 0.25);
+  border-radius: $radius-md;
+  color: $color-danger;
+  font-size: $font-size-sm;
+}
+
+// ── Section layout ──────────────────────────────────────────────
+.dz-section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.dz-header {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-4;
+}
+
+.dz-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-md;
+  @include flex-center;
+
+  &.deactivate-icon {
+    background: rgba($color-warning, 0.12);
+    color: $color-warning;
+  }
+
+  &.delete-icon {
+    background: rgba($color-danger, 0.12);
+    color: $color-danger;
+  }
+}
+
+.dz-title {
+  margin: 0 0 $space-1;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text;
+}
+
+.dz-desc {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  line-height: 1.6;
+}
+
+.dz-divider {
+  height: 1px;
+  background: $color-border-soft;
+}
+
+// ── Buttons ─────────────────────────────────────────────────────
+.dz-btn {
+  align-self: flex-start;
+  padding: $space-2 $space-5;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  @include hover-transition(all);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1.5px solid $color-warning;
+    color: $color-warning;
+
+    &:hover:not(:disabled) {
+      background: rgba($color-warning, 0.08);
+    }
+  }
+
+  &--danger {
+    background: $color-danger;
+    border: 1.5px solid $color-danger;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+  }
+}
+
+// ── Deletion pending banner ──────────────────────────────────────
+.deletion-pending-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-4;
+  background: rgba($color-warning, 0.08);
+  border: 1.5px solid rgba($color-warning, 0.35);
+  border-radius: $radius-md;
+  color: $color-warning;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .banner-content {
+    flex: 1;
+    font-size: $font-size-sm;
+    line-height: 1.6;
+  }
+
+  .banner-hint {
+    opacity: 0.8;
+    font-style: italic;
+  }
+}
+
+.cancel-deletion-btn {
+  flex-shrink: 0;
+  padding: $space-2 $space-4;
+  background: rgba($color-warning, 0.15);
+  border: 1.5px solid $color-warning;
+  border-radius: $radius-md;
+  color: $color-warning;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  white-space: nowrap;
+  @include hover-transition(background-color);
+
+  &:hover:not(:disabled) {
+    background: rgba($color-warning, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ── Modals ───────────────────────────────────────────────────────
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  @include flex-center;
+  padding: $space-4;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: $color-surface;
+  border: 1px solid $color-border-soft;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 440px;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+  animation: slideUp 0.2s ease;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.modal-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-md;
+  flex-shrink: 0;
+  @include flex-center;
+
+  &.deactivate-icon {
+    background: rgba($color-warning, 0.12);
+    color: $color-warning;
+  }
+
+  &.delete-icon {
+    background: rgba($color-danger, 0.12);
+    color: $color-danger;
+  }
+}
+
+.modal-title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  line-height: 1.6;
+
+  p {
+    margin: 0;
+  }
+}
+
+.modal-note {
+  padding: $space-3;
+  background: $color-surface-2;
+  border-radius: $radius-md;
+  border: 1px solid $color-border-soft;
+  color: $color-text;
+  font-size: $font-size-xs;
+}
+
+.delete-timer {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: $color-warning;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.modal-confirm-input {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  label {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+
+    code {
+      background: $color-surface-2;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-family: $font-mono;
+      color: $color-text;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: $space-2 $space-3;
+    background: $color-surface-2;
+    border: 1.5px solid $color-border-soft;
+    border-radius: $radius-md;
+    color: $color-text;
+    font-size: $font-size-sm;
+    font-family: $font-mono;
+    outline: none;
+    @include hover-transition(border-color);
+
+    &:focus {
+      border-color: $color-accent;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: $space-3;
+  justify-content: flex-end;
+}
+
+.modal-btn {
+  padding: $space-2 $space-5;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  @include hover-transition(all);
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &--ghost {
+    background: transparent;
+    border: 1.5px solid $color-border-soft;
+    color: $color-text-muted;
+
+    &:hover:not(:disabled) {
+      background: $color-surface-2;
+    }
+  }
+
+  &--warning {
+    background: $color-warning;
+    border: 1.5px solid $color-warning;
+    color: #000;
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+  }
+
+  &--danger {
+    background: $color-danger;
+    border: 1.5px solid $color-danger;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      opacity: 0.88;
+    }
+  }
+}

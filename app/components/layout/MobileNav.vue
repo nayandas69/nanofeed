@@ -34,7 +34,6 @@ const navLinks = computed(() => {
 
   return links
 })
-const { openComposer } = useCompose()
 const { unreadCount, fetchUnreadCount } = useNotifications()
 
 onMounted(() => {
@@ -45,13 +44,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <nav class="nf-mobile-nav">
+  <nav class="nf-mobile-nav" aria-label="Main navigation">
     <NuxtLink
       v-for="link in navLinks"
       :key="link.path"
       :to="link.path"
       class="nav-item"
       active-class="is-active"
+      :aria-label="link.name"
     >
       <!-- Home -->
       <svg
@@ -140,7 +140,13 @@ onMounted(() => {
     </NuxtLink>
 
     <!-- Settings (if auth) -->
-    <NuxtLink v-if="isAuthenticated" to="/settings" class="nav-item" active-class="is-active">
+    <NuxtLink
+      v-if="isAuthenticated"
+      to="/settings"
+      class="nav-item"
+      active-class="is-active"
+      aria-label="Settings"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -159,107 +165,6 @@ onMounted(() => {
       </svg>
     </NuxtLink>
   </nav>
-
-  <!-- Mobile Floating Action Button (FAB) -->
-  <button
-    v-if="isAuthenticated"
-    class="nf-mobile-fab"
-    aria-label="Create post"
-    @click="openComposer"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  </button>
 </template>
 
-<style lang="scss" scoped>
-.nf-mobile-nav {
-  display: none; // Hidden on desktop
-
-  @include max-sm {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background-color: rgba($color-bg, 0.85);
-    backdrop-filter: blur(8px);
-    border-top: 1px solid $color-border-soft;
-    z-index: $z-sticky;
-  }
-}
-
-.nav-item {
-  display: flex;
-  padding: $space-3;
-  color: $color-text-muted;
-  border-radius: $radius-full;
-  @include hover-transition(color);
-
-  &.is-active {
-    color: $color-text;
-  }
-
-  &:active {
-    background-color: $color-surface-2;
-  }
-
-  .icon-wrapper {
-    position: relative;
-    @include flex-center;
-
-    .badge-dot {
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 10px;
-      height: 10px;
-      background-color: $color-accent;
-      border-radius: 50%;
-      border: 2px solid $color-bg;
-    }
-  }
-}
-
-.fab-spacer {
-  width: 56px; // Space for the FAB
-}
-
-.nf-mobile-fab {
-  display: none;
-
-  @include max-sm {
-    @include flex-center;
-    position: fixed;
-    bottom: 76px; // Above the nav bar
-    right: 16px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: $color-accent;
-    color: white;
-    border: none;
-    box-shadow: $shadow-lg;
-    z-index: $z-sticky;
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-}
-</style>
+<style src="~/assets/scss/components/layout/MobileNav.scss" lang="scss" scoped></style>

@@ -1,0 +1,142 @@
+.page-login {
+  @include flex-center;
+  min-height: 100vh;
+  padding: $space-4;
+  background-color: $color-bg;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-8;
+  text-align: center;
+}
+
+// ── Context banners ──────────────────────────────────────────────
+.login-banner {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-4;
+  border-radius: $radius-md;
+  text-align: left;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &--info {
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #60a5fa;
+  }
+
+  &--warning {
+    background: rgba($color-warning, 0.1);
+    border: 1px solid rgba($color-warning, 0.3);
+    color: $color-warning;
+  }
+
+  &--success {
+    background: rgba($color-success, 0.1);
+    border: 1px solid rgba($color-success, 0.3);
+    color: $color-success;
+  }
+}
+
+.logo {
+  margin-bottom: $space-2;
+
+  .logo-text {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.02em;
+    color: $color-text;
+
+    span {
+      color: $color-accent;
+    }
+  }
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+
+  h1 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: $font-size-lg;
+    color: $color-text-muted;
+    margin: 0;
+  }
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.captcha {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+}
+
+rootcap-widget {
+  --rc-primary: #{$color-accent};
+  --rc-primary-dark: #{$color-accent-hover};
+  --rc-surface: #{$color-surface-2};
+  --rc-verified-surface: #{$color-surface-2};
+  --rc-focus: #{$color-accent};
+  --rc-on-primary: #fff;
+  --rc-border: #{$color-border};
+  --rc-text: #{$color-text};
+  --rc-muted: #{$color-text-muted};
+  --rc-error: #{$color-danger};
+  --rc-track: #{$color-surface-3};
+}
+
+.github-btn {
+  @include flex-center;
+  gap: $space-3;
+  background-color: #24292e; // GitHub brand color
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background-color: #2f363d;
+  }
+}
+
+.disclaimer {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  opacity: 0.9;
+  line-height: 1.5;
+
+  a {
+    color: $color-accent;
+    font-weight: $font-weight-semibold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -38,18 +38,17 @@ const isReacting = ref(false)
 
 // Repost Logic
 const repostCount = ref(props.post._count?.reposts || 0)
-const hasReposted = ref(false) // Note: This would ideally come from the server like hasReacted
+// The post API does not provide the viewer's repost state until they toggle it.
+const hasReposted = ref<boolean | undefined>(undefined)
 const isReposting = ref(false)
 
 // Keep local state in sync with props
-watch(
-  () => props.post.id,
-  () => {
-    hasReacted.value = props.post.hasReacted || false
-    reactionCount.value = props.post._count?.reactions || 0
-    repostCount.value = props.post._count?.reposts || 0
-  },
-)
+watch([() => props.post.id, () => user.value?.id], () => {
+  hasReacted.value = props.post.hasReacted || false
+  reactionCount.value = props.post._count?.reactions || 0
+  repostCount.value = props.post._count?.reposts || 0
+  hasReposted.value = undefined
+})
 
 const handleReact = async () => {
   if (!isAuthenticated.value || isReacting.value) return
@@ -65,8 +64,15 @@ const handleReact = async () => {
 const handleRepost = async () => {
   if (!isAuthenticated.value || isReposting.value) return
   isReposting.value = true
-  const res = (await repost(props.post.id)) as { reposted: boolean }
-  if (res) {
+  const postId = props.post.id
+  const userId = user.value?.id
+  const res = (await repost(postId)) as { reposted: boolean } | null
+  if (
+    res &&
+    typeof res.reposted === 'boolean' &&
+    props.post.id === postId &&
+    user.value?.id === userId
+  ) {
     hasReposted.value = res.reposted
     repostCount.value += res.reposted ? 1 : -1
   }
@@ -128,7 +134,12 @@ const showShareModal = ref(false)
 <template>
   <div v-if="isAuthenticated" class="nf-post-actions" @click.stop>
     <!-- Reply Button -->
-    <button class="action-btn reply-btn" title="Reply" @click="showReplyModal = true">
+    <button
+      class="action-btn reply-btn"
+      title="Reply"
+      aria-label="Reply"
+      @click="showReplyModal = true"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="18"
@@ -152,6 +163,8 @@ const showShareModal = ref(false)
       :class="{ 'is-active': hasReposted }"
       :disabled="isReposting"
       title="Repost"
+      aria-label="Repost"
+      :aria-pressed="hasReposted"
       @click="handleRepost"
     >
       <svg
@@ -180,6 +193,8 @@ const showShareModal = ref(false)
       :class="{ 'is-active': hasReacted }"
       :disabled="isReacting"
       title="Love"
+      aria-label="Love"
+      :aria-pressed="hasReacted"
       @click="handleReact"
     >
       <svg
@@ -202,7 +217,12 @@ const showShareModal = ref(false)
     </button>
 
     <!-- Share Button -->
-    <button class="action-btn share-btn" title="Share" @click="showShareModal = true">
+    <button
+      class="action-btn share-btn"
+      title="Share"
+      aria-label="Share"
+      @click="showShareModal = true"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="18"
@@ -226,6 +246,7 @@ const showShareModal = ref(false)
       v-if="canDelete"
       class="action-btn delete-btn"
       title="Delete Post"
+      aria-label="Delete post"
       @click="showDeleteConfirm = true"
     >
       <svg
@@ -253,6 +274,7 @@ const showShareModal = ref(false)
       v-else
       class="action-btn report-btn"
       title="Report Post"
+      aria-label="Report post"
       @click="showReportModal = true"
     >
       <svg
@@ -371,150 +393,4 @@ const showShareModal = ref(false)
   </div>
 </template>
 
-<style lang="scss" scoped>
-.nf-post-actions {
-  display: flex;
-  align-items: center;
-  gap: $space-2;
-  margin-top: $space-2;
-}
-
-.action-btn {
-  @include flex-center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  color: $color-text-muted;
-  @include hover-transition(all);
-
-  &.reply-btn:hover {
-    color: $color-accent;
-    background-color: rgba($color-accent, 0.1);
-  }
-
-  &.repost-btn {
-    &:hover {
-      color: #00ba7c;
-      background-color: rgba(#00ba7c, 0.1);
-    }
-    &.is-active {
-      color: #00ba7c;
-    }
-  }
-
-  &.love-btn {
-    &.is-active {
-      color: #f91880;
-    }
-    &:hover {
-      color: #f91880;
-      background-color: rgba(#f91880, 0.1);
-    }
-  }
-
-  &.delete-btn:hover {
-    color: $color-danger;
-    background-color: rgba($color-danger, 0.1);
-  }
-
-  &.report-btn:hover {
-    color: $color-warning;
-    background-color: rgba($color-warning, 0.1);
-  }
-
-  &.share-btn:hover {
-    color: $color-accent;
-    background-color: rgba($color-accent, 0.1);
-  }
-
-  .count {
-    font-size: $font-size-xs;
-    margin-left: 4px;
-  }
-}
-
-.reply-box {
-  .reply-textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: $color-text;
-    font-size: $font-size-lg;
-    font-family: inherit;
-    resize: none;
-    padding: $space-2;
-
-    &:focus {
-      outline: none;
-    }
-  }
-}
-
-// Report Modal Styles
-.report-success {
-  text-align: center;
-  padding: $space-4 0;
-
-  .success-icon {
-    color: $color-success;
-    margin-bottom: $space-3;
-  }
-}
-
-.report-form {
-  display: flex;
-  flex-direction: column;
-  gap: $space-4;
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: $space-2;
-
-    label {
-      font-weight: $font-weight-medium;
-      color: $color-text;
-    }
-  }
-
-  .radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: $space-2;
-    background: $color-surface-2;
-    padding: $space-3;
-    border-radius: $radius-md;
-    border: 1px solid $color-border-soft;
-  }
-
-  .radio-label {
-    display: flex;
-    align-items: center;
-    gap: $space-2;
-    cursor: pointer;
-    font-weight: normal;
-
-    input[type='radio'] {
-      accent-color: $color-accent;
-      width: 16px;
-      height: 16px;
-    }
-  }
-
-  .comments-input {
-    width: 100%;
-    padding: $space-3;
-    background-color: $color-surface-2;
-    border: 1px solid $color-border-soft;
-    border-radius: $radius-md;
-    color: $color-text;
-    font-family: inherit;
-    resize: vertical;
-
-    &:focus {
-      outline: none;
-      border-color: $color-accent;
-    }
-  }
-}
-</style>
+<style src="~/assets/scss/components/post/PostActions.scss" lang="scss" scoped></style>

@@ -1,0 +1,56 @@
+.nf-mobile-nav {
+  display: none; // Hidden on desktop
+
+  @include max-sm {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding: 4px max(4px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px)
+      max(4px, env(safe-area-inset-left, 0px));
+    background-color: rgba($color-bg, 0.85);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid $color-border-soft;
+    z-index: $z-sticky;
+  }
+}
+
+.nav-item {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-muted;
+  border-radius: $radius-md;
+  @include hover-transition(color);
+
+  &.is-active {
+    color: $color-accent;
+  }
+
+  &:active {
+    background-color: $color-surface-2;
+  }
+
+  .icon-wrapper {
+    position: relative;
+    @include flex-center;
+
+    .badge-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      background-color: $color-accent;
+      border-radius: 50%;
+      border: 2px solid $color-bg;
+    }
+  }
+}

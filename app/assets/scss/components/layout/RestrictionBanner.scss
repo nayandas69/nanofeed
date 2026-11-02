@@ -1,0 +1,42 @@
+.nf-restriction-banner {
+  background-color: rgba($color-danger, 0.1);
+  border-bottom: 1px solid rgba($color-danger, 0.2);
+  padding: $space-3 $space-4;
+  margin-bottom: $space-1;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.banner-content {
+  display: flex;
+  gap: $space-3;
+  align-items: flex-start;
+  max-width: $content-max-width;
+  margin: 0 auto;
+
+  .icon {
+    color: $color-danger;
+    margin-top: 2px;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .title {
+      font-weight: $font-weight-bold;
+      font-size: $font-size-sm;
+      color: $color-danger;
+    }
+
+    .note {
+      font-size: $font-size-xs;
+      color: $color-text;
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+}

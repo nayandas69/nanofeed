@@ -59,39 +59,4 @@ const nextPage = () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-.page-hashtag {
-  max-width: $content-max-width;
-  margin: 0 auto;
-  min-height: 100vh;
-  border-left: 1px solid $color-border-soft;
-  border-right: 1px solid $color-border-soft;
-}
-
-.hashtag-header {
-  padding: $space-8 $space-4;
-  border-bottom: 1px solid $color-border-soft;
-  background: linear-gradient(to bottom, rgba($color-accent, 0.05), transparent);
-
-  .tag-info {
-    h1 {
-      font-size: $font-size-3xl;
-      font-weight: $font-weight-bold;
-      margin-bottom: $space-1;
-    }
-
-    p {
-      color: $color-text-muted;
-      font-size: $font-size-md;
-    }
-  }
-}
-
-.hashtag-content {
-  padding-bottom: $space-16;
-}
-
-:deep(.feed-list) {
-  padding: $space-4;
-}
-</style>
+<style src="~/assets/scss/pages/hashtags/[tag].scss" lang="scss" scoped></style>

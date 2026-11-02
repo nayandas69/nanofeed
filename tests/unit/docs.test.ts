@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { access, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { compileArticle, loadDocs } from '../../build/docs'
@@ -49,6 +49,7 @@ it('compiles every published guide and resolves internal guide and section links
   expect(docs.map((item) => item.slug)).toEqual([
     'using-nanofeed',
     'account',
+    'badges',
     'connecting',
     'conversations',
     'getting-started',
@@ -66,6 +67,20 @@ it('compiles every published guide and resolves internal guide and section links
   expect(docs.find((item) => item.slug === 'github-auth')?.html).toContain(
     'https://nanofeed.vercel.app/api/auth/callback/github',
   )
+  for (const article of docs) {
+    for (const [, image] of article.html.matchAll(/src="(\/docs\/screenshots\/[^"?#]+)"/g)) {
+      await expect(access(join('public', image!))).resolves.toBeUndefined()
+    }
+  }
+})
+
+it('serves public screenshot paths while leaving external image URLs alone', () => {
+  const article = compileArticle(
+    'TEST.md',
+    `${header}![Example](../public/docs/screenshots/home.png)\n\n![Remote](https://example.com/image.png)`,
+  )
+  expect(article.html).toContain('src="/docs/screenshots/home.png"')
+  expect(article.html).toContain('src="https://example.com/image.png"')
 })
 
 it('accepts links to H4–H6 anchors while keeping only H2–H3 in the table of contents', async () => {

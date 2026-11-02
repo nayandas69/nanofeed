@@ -1,0 +1,231 @@
+// Note: Not completely scoped here so the v-html .hashtag styles applied from utils work correctly
+// if we didn't inject them globally (we did in main.scss, but this ensures safety).
+.nf-post-card {
+  display: flex;
+  flex-direction: column;
+  padding: $space-5;
+  border: 1px solid rgba($color-border, 0.3);
+  background: rgba($color-surface, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: $radius-xl;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  @include hover-transition(all);
+
+  &:hover {
+    background-color: rgba($color-surface-2, 0.6);
+    border-color: rgba($color-accent, 0.3);
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+    z-index: 5;
+  }
+
+  &.is-inside-repost {
+    margin-top: $space-3;
+    border: 1px solid rgba($color-border, 0.4);
+    background: rgba(255, 255, 255, 0.03);
+    padding: $space-3;
+    border-radius: $radius-lg;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none !important;
+
+    .post-header {
+      .display-name {
+        font-size: $font-size-sm;
+      }
+      .username,
+      .timestamp {
+        font-size: $font-size-xs;
+      }
+    }
+
+    .post-content {
+      font-size: $font-size-sm;
+    }
+
+    .post-actions {
+      display: none;
+    }
+
+    .post-left {
+      .author-avatar {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+.repost-spacer {
+  height: 20px;
+}
+
+.repost-header {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  font-weight: $font-weight-bold;
+  margin-bottom: $space-1;
+  line-height: 1;
+
+  .repost-icon {
+    color: inherit;
+    margin-top: -1px;
+  }
+}
+
+.post-layout {
+  display: flex;
+  gap: $space-3;
+  width: 100%;
+
+  &.main-post {
+    margin-top: $space-2; // Space between parent and child inside card
+  }
+}
+
+.post-left {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 40px;
+
+  .author-avatar {
+    cursor: pointer;
+    z-index: 2;
+    @include hover-transition(opacity);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .thread-line {
+    position: absolute;
+    top: 40px;
+    bottom: -24px; // Reaches down towards the child avatar area
+    width: 2px;
+    background-color: rgba($color-border, 0.3); // More subtle
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    pointer-events: none;
+
+    &.top {
+      top: -24px; // Connects from the bottom of parent area
+      bottom: auto;
+      height: 28px;
+    }
+  }
+}
+
+.threaded-parent {
+  opacity: 0.9;
+  @include hover-transition(opacity);
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .post-layout {
+    margin-bottom: $space-1;
+  }
+
+  .post-content {
+    font-size: $font-size-md;
+    color: $color-text-muted;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.post-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  margin-bottom: 2px;
+  cursor: pointer;
+
+  .display-name {
+    font-weight: $font-weight-bold;
+    color: $color-text;
+    @include truncate;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .username,
+  .timestamp,
+  .dot {
+    color: $color-text-muted;
+    font-size: $font-size-sm;
+    @include truncate;
+  }
+
+  .dot {
+    flex-shrink: 0;
+  }
+
+  .timestamp {
+    flex-shrink: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.reply-indicator {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  margin-top: -$space-1;
+  margin-bottom: $space-2;
+
+  .reply-to {
+    color: $color-accent;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.post-content {
+  font-size: $font-size-base;
+  line-height: 1.5;
+  color: $color-text;
+  word-wrap: break-word;
+  padding-right: $space-2;
+
+  // Preserve whitespace/newlines
+  white-space: pre-wrap;
+
+  .unavailable-text {
+    font-style: italic;
+    color: $color-text-muted;
+    opacity: 0.8;
+  }
+}
+
+.reposted-content-wrapper {
+  margin-top: $space-2;
+  margin-right: $space-2;
+}

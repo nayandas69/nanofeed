@@ -1,0 +1,154 @@
+.nf-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $space-4;
+}
+
+.nf-modal-content {
+  background-color: $color-bg;
+  border: 1px solid $color-border-soft;
+  border-radius: $radius-xl;
+  width: 100%;
+  max-width: 450px;
+  height: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-xl;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: $space-4;
+  border-bottom: 1px solid $color-border-soft;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .modal-title {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: $color-text-muted;
+    cursor: pointer;
+    padding: $space-1;
+    border-radius: $radius-full;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $color-surface-2;
+      color: $color-text;
+    }
+  }
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: $space-2;
+
+  // Custom scrollbar for better feel
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $color-surface-3;
+    border-radius: $radius-full;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.loading-state,
+.empty-state {
+  padding: $space-10;
+  text-align: center;
+  color: $color-text-muted;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-1 $space-4;
+  border-radius: $radius-lg;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $color-surface-2;
+  }
+}
+
+.user-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 0;
+  text-decoration: none;
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: $space-1;
+
+      .display-name {
+        color: $color-text;
+        font-weight: $font-weight-bold;
+        font-size: $font-size-base;
+      }
+    }
+
+    .username {
+      color: $color-text-muted;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.item-actions {
+  margin-left: $space-4;
+}
+
+/* Modal Transition */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+
+  .nf-modal-content {
+    transition: transform 0.3s ease;
+  }
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+
+  .nf-modal-content {
+    transform: scale(0.95);
+  }
+}

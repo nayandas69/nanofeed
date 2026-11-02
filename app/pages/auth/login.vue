@@ -4,6 +4,7 @@
 -->
 <script setup lang="ts">
 import UiButton from '../../components/ui/Button.vue'
+import type { RootcapWidget } from 'rootcap/widget'
 
 definePageMeta({
   layout: 'blank',
@@ -15,56 +16,25 @@ const route = useRoute()
 const captchaToken = ref('')
 const captchaReady = ref(false)
 const captchaError = ref(false)
-const captchaKey = ref(0)
-const captchaContainer = ref<HTMLElement | null>(null)
-let expiryTimer: ReturnType<typeof setTimeout> | undefined
-
-async function configureCaptcha() {
-  await nextTick()
-  const shadow = captchaContainer.value?.querySelector('rootcap-widget')?.shadowRoot
-  if (!shadow) return
-  const button = shadow.querySelector('button')
-  const label = shadow.querySelector('.rc-label')
-  if (label) {
-    label.id = 'rootcap-label'
-    button?.setAttribute('aria-labelledby', label.id)
-  } else {
-    button?.setAttribute('aria-label', 'Verify you are human')
-  }
-
-  // RootCap 1.0 hard-codes the verified background and focus color inside its shadow root.
-  const style = document.createElement('style')
-  style.textContent = `
-    .rc-widget[data-state=verified] { background: var(--rc-surface); }
-    .rc-checkbox:focus-visible { outline-color: var(--rc-primary); }
-  `
-  shadow.appendChild(style)
-}
+const captchaWidget = ref<RootcapWidget | null>(null)
 
 onMounted(async () => {
   try {
     await import('rootcap/widget')
     captchaReady.value = true
-    await configureCaptcha()
   } catch {
     captchaError.value = true
   }
 })
-onBeforeUnmount(() => clearTimeout(expiryTimer))
-
 function resetCaptcha() {
-  clearTimeout(expiryTimer)
   captchaToken.value = ''
-  captchaKey.value++
-  void configureCaptcha()
+  captchaWidget.value?.reset()
 }
 
 function captchaVerified(event: Event) {
   const token = (event as CustomEvent<{ token?: unknown }>).detail?.token
   if (typeof token !== 'string' || !token) return
   captchaToken.value = token
-  clearTimeout(expiryTimer)
-  expiryTimer = setTimeout(resetCaptcha, 2 * 60 * 1000)
 }
 
 async function submitGithubLogin() {
@@ -186,17 +156,21 @@ const bannerType = computed<BannerType>(() => {
         <p v-if="authError || route.query.error" role="alert">
           {{ authError || 'GitHub sign-in failed. Please try again.' }}
         </p>
-        <div ref="captchaContainer" class="captcha">
+        <div class="captcha">
           <p v-if="captchaError" role="alert">
             Verification could not load. Please reload the page.
           </p>
           <ClientOnly>
             <rootcap-widget
               v-if="captchaReady"
-              :key="captchaKey"
+              ref="captchaWidget"
               data-api="/api/rootcap"
               data-scope="github-sign-in"
+              :disabled="isLoading ? '' : null"
               @rootcap:verified="captchaVerified"
+              @rootcap:reset="captchaToken = ''"
+              @rootcap:expired="captchaToken = ''"
+              @rootcap:error="captchaToken = ''"
             />
           </ClientOnly>
         </div>
@@ -238,144 +212,4 @@ const bannerType = computed<BannerType>(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-.page-login {
-  @include flex-center;
-  min-height: 100vh;
-  padding: $space-4;
-  background-color: $color-bg;
-}
-
-.login-container {
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $space-8;
-  text-align: center;
-}
-
-// ── Context banners ──────────────────────────────────────────────
-.login-banner {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  gap: $space-3;
-  padding: $space-4;
-  border-radius: $radius-md;
-  text-align: left;
-  font-size: $font-size-sm;
-  line-height: 1.6;
-
-  svg {
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  &--info {
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #60a5fa;
-  }
-
-  &--warning {
-    background: rgba($color-warning, 0.1);
-    border: 1px solid rgba($color-warning, 0.3);
-    color: $color-warning;
-  }
-
-  &--success {
-    background: rgba($color-success, 0.1);
-    border: 1px solid rgba($color-success, 0.3);
-    color: $color-success;
-  }
-}
-
-.logo {
-  margin-bottom: $space-2;
-
-  .logo-text {
-    font-size: $font-size-3xl;
-    font-weight: $font-weight-bold;
-    letter-spacing: -0.02em;
-    color: $color-text;
-
-    span {
-      color: $color-accent;
-    }
-  }
-}
-
-.text-content {
-  display: flex;
-  flex-direction: column;
-  gap: $space-2;
-
-  h1 {
-    font-size: $font-size-3xl;
-    font-weight: $font-weight-bold;
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  p {
-    font-size: $font-size-lg;
-    color: $color-text-muted;
-    margin: 0;
-  }
-}
-
-.actions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: $space-4;
-}
-
-.captcha {
-  display: flex;
-  justify-content: center;
-  text-align: left;
-}
-
-rootcap-widget {
-  --rc-primary: #{$color-accent};
-  --rc-primary-dark: #{$color-accent-hover};
-  --rc-surface: #{$color-surface-2};
-  --rc-border: #{$color-border};
-  --rc-text: #{$color-text};
-  --rc-muted: #{$color-text-muted};
-  --rc-error: #{$color-danger};
-  --rc-track: #{$color-surface-3};
-}
-
-.github-btn {
-  @include flex-center;
-  gap: $space-3;
-  background-color: #24292e; // GitHub brand color
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  &:hover {
-    background-color: #2f363d;
-  }
-}
-
-.disclaimer {
-  font-size: $font-size-xs;
-  color: $color-text-muted;
-  opacity: 0.9;
-  line-height: 1.5;
-
-  a {
-    color: $color-accent;
-    font-weight: $font-weight-semibold;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-</style>
+<style src="~/assets/scss/pages/auth/login.scss" lang="scss" scoped></style>

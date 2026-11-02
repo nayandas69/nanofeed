@@ -1,0 +1,92 @@
+.page-home {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  border-left: 1px solid $color-border-soft;
+  border-right: 1px solid $color-border-soft;
+  min-height: 100vh;
+}
+
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  padding-bottom: $space-16;
+}
+
+.feed-header {
+  padding: $space-6 $space-4 $space-2;
+
+  .welcome-box {
+    h2 {
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      margin-bottom: $space-1;
+      background: linear-gradient(to right, $color-text, $color-accent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: $color-text-muted;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.feed-explainer {
+  margin: 0 $space-4;
+  padding: $space-4;
+  border: 1px solid $color-border-soft;
+  border-radius: $radius-lg;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  summary {
+    cursor: pointer;
+    color: $color-text;
+  }
+  p {
+    margin-top: $space-2;
+  }
+}
+
+.feed-content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.refresh-btn {
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: $color-text-muted;
+  @include hover-transition(all);
+
+  &:hover {
+    color: $color-text;
+    background-color: $color-surface-2;
+  }
+
+  &.is-spinning svg {
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Glassmorphism effect for post composer and feed items would be better handled
+// in their respective components, but let's add some global tweaks here if needed.
+:deep(.post-composer) {
+  background: rgba($color-surface, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba($color-border, 0.5);
+  border-radius: $radius-xl;
+  margin: 0 $space-4;
+}
+
+:deep(.nf-feed-list) {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  padding: 0 $space-4;
+}

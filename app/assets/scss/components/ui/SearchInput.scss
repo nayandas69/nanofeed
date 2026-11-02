@@ -1,0 +1,68 @@
+.nf-search-input {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  background-color: $color-surface-2;
+  border: 1px solid transparent;
+  padding: 0 $space-4;
+  height: 48px;
+  border-radius: $radius-full;
+  @include hover-transition(all);
+  width: 100%;
+
+  &:hover {
+    background-color: $color-surface-3;
+  }
+
+  &.is-focused {
+    background-color: $color-bg;
+    border-color: $color-accent;
+    box-shadow: 0 0 0 1px $color-accent;
+  }
+
+  &.is-compact {
+    height: 36px;
+    padding: 0 $space-3;
+  }
+
+  .search-icon {
+    color: $color-text-muted;
+    @include flex-center;
+  }
+
+  input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: $color-text;
+    font-size: $font-size-base;
+    min-width: 0;
+    height: 100%;
+    width: 100%;
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+
+  .clear-btn {
+    @include flex-center;
+    color: $color-bg;
+    background-color: $color-accent;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+
+    @include max-sm {
+      width: 44px;
+      height: 44px;
+    }
+    @include hover-transition(opacity);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

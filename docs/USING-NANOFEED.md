@@ -11,17 +11,26 @@ NanoFeed is a text-first place to share what you are building. Open [the feed](h
 
 ## Sign in and set up your profile
 
-1. Complete **I am human**, choose **Continue with GitHub**, and authorize the application. Use a GitHub account with an email available to the OAuth app.
+1. Open [NanoFeed](https://nanofeed.vercel.app/). Choose **I am human** and complete the check (1). The GitHub button becomes available after the check succeeds.
+2. Choose **Continue with GitHub** (2). Sign in to GitHub if asked and authorize NanoFeed. Use a GitHub account with an email available to the OAuth app.
+3. Your first successful sign-in creates a profile. Use the same GitHub account when returning. Open **Settings → Profile** to update your display name, username, avatar, and bio.
+4. Usernames use 3–30 letters, numbers, or underscores and must be available. Bios can contain up to 160 characters. Save your changes.
 
-2. Your first successful sign-in creates your NanoFeed profile. Return with the same GitHub account to keep your content and connections.
-3. Open **Settings → Profile**. Set your display name, username, avatar, and bio, then save your changes.
-4. Usernames must contain 3–30 letters, numbers, or underscores. Bios can contain up to 160 characters. A username must be available before it can be saved.
+![Sign-in screen with the human check marked 1 and GitHub button marked 2](../public/docs/screenshots/signin.png)
 
-Your NanoFeed profile edits are retained on later sign-ins. Changing your username also changes your profile URL, so update links you have shared.
+_Local demonstration. Complete the human check before choosing the disabled button._
+
+Your NanoFeed profile edits remain when you sign in again. Changing your username also changes your profile URL, so update links you have shared. If sign-in fails, see [Troubleshooting](TROUBLESHOOTING.md#i-cannot-sign-in).
 
 ## Write your first post
 
-Use the **What are you building?** composer, or the compose button. Write up to **280 characters**, then choose **Post**. You can also submit with **Ctrl+Enter** on Windows/Linux or **Command+Enter** on macOS. Empty posts cannot be submitted.
+On **Home**, type in **What are you building?** (2 in the image below), then choose **Post**. You can also post from the composer on your own profile. On desktop the sidebar **Post** button opens a composer. Press **Ctrl+Enter** on Windows/Linux or **Command+Enter** on macOS to submit from the composer.
+
+![Home screen with feed tabs marked 1, composer marked 2, and a rendered code block marked 3](../public/docs/screenshots/home.png)
+
+_Local demonstration using synthetic accounts and a sample post._
+
+Posts and replies must contain text and are limited to **280 characters**, including spaces, hashtags, and code fences. The counter appears as you type. Leading and trailing whitespace is trimmed. Posts and replies share a limit of five creation requests per account per minute; wait and retry if limited.
 
 For example:
 
@@ -29,7 +38,17 @@ For example:
 Shipped my first Nuxt app today! Learning about server rendering next. #nuxt #buildinpublic
 ```
 
-Posts support text and closed fenced code blocks, subject to the same 280-character limit. Use hashtags to help people discover a topic. Open a post to read its conversation, and use the reply action to join in. Check the counter and any error message if the Post button is unavailable.
+### Share code in a post
+
+Type three backticks, an optional language name, and a newline. Put your code below, then close the block with three backticks. For example, type:
+
+````text
+```js
+console.log("Hello, NanoFeed!")
+```
+````
+
+A closed block appears with a language header and **Copy** control (3 above). An unfinished fence stays as text. The entire post, including the backticks and language, counts toward the limit; link to a repository for longer examples. For more on replies and sharing, see [Posts and conversations](CONVERSATIONS.md).
 
 ## Choose a feed
 
@@ -39,7 +58,7 @@ Posts support text and closed fenced code blocks, subject to the same 280-charac
 | Following | Posts from people you follow. Visit a profile and choose Follow to build your circle.                                                           |
 | Latest    | A chronological view of recent posts.                                                                                                           |
 
-New accounts may have little personalized history. Follow developers you enjoy and interact with relevant posts. See [Content recommendations](RECOMMENDATIONS.md) for how ranking works.
+The three tabs are marked 1 in the Home image. New accounts may have little personalized history. Follow developers and interact with relevant posts; choose **Latest** for chronological posts. Refresh creates a new **For you** ranking. See [Content recommendations](RECOMMENDATIONS.md) for ranking and pagination details.
 
 ## Reply, react, repost, and share
 

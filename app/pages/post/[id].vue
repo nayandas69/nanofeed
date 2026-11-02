@@ -60,36 +60,4 @@ const onPosted = () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-.page-post-detail {
-  max-width: $content-max-width;
-  margin: 0 auto;
-  min-height: 100vh;
-}
-
-.loading-state,
-.error-state {
-  @include flex-center;
-  padding: $space-10;
-  color: $color-text-muted;
-}
-
-.main-post-section {
-  border-bottom: 1px solid $color-border-soft;
-}
-
-.reply-composer-section {
-  padding: $space-2 0;
-  border-bottom: 1px solid $color-border-soft;
-}
-
-.replies-header {
-  padding: $space-4;
-  border-bottom: 1px solid $color-border-soft;
-  h3 {
-    margin: 0;
-    font-size: $font-size-md;
-    color: $color-text-muted;
-  }
-}
-</style>
+<style src="~/assets/scss/pages/post/[id].scss" lang="scss" scoped></style>

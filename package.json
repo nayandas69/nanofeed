@@ -39,7 +39,7 @@
     "better-auth": "1.7.14",
     "nuxt": "4.6.3",
     "pg": "8.23.1",
-    "rootcap": "1.0.0",
+    "rootcap": "1.2.0",
     "shiki": "4.5.0",
     "vue": "3.5.44",
     "vue-router": "5.4.0"

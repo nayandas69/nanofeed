@@ -21,8 +21,4 @@ const { isComposerOpen, closeComposer } = useCompose()
   </UiModal>
 </template>
 
-<style lang="scss" scoped>
-.modal-composer-wrapper {
-  padding: $space-2 0;
-}
-</style>
+<style src="~/assets/scss/components/post/PostComposeModal.scss" lang="scss" scoped></style>

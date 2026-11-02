@@ -169,3 +169,15 @@ a {
 html {
   @include custom-scrollbar;
 }
+
+// Keep keyboard focus visible throughout the app.
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

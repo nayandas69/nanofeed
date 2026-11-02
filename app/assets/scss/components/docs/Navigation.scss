@@ -1,0 +1,31 @@
+.docs-navigation {
+  display: grid;
+  gap: 24px;
+  section {
+    display: grid;
+    gap: 4px;
+  }
+  h2 {
+    color: #949aab;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 10px 8px;
+  }
+  a {
+    color: #a6acbc;
+    font-size: 14px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  a:hover {
+    background: #14171f;
+    color: white;
+  }
+  a.is-current {
+    color: #87bfff;
+    background: #172335;
+  }
+}

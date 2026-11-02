@@ -63,13 +63,4 @@ async function copyCode(event: MouseEvent) {
   </div>
 </template>
 
-<style scoped>
-.copy-status {
-  color: #c1d8fb;
-  font-size: 12px;
-  margin-top: 12px;
-}
-.copy-status:empty {
-  display: none;
-}
-</style>
+<style src="~/assets/scss/components/docs/Content.scss" lang="scss" scoped></style>

@@ -69,7 +69,7 @@ export async function consumeRootcapToken(token: string | undefined) {
     typeof payload.exp !== 'number' ||
     !Number.isSafeInteger(payload.exp) ||
     payload.exp <= Date.now() ||
-    !verifyToken(key, token)
+    !verifyToken(key, token, { scope: SCOPE })
   )
     return false
   // Atomic across server instances. A successful token can start only one sign-in.

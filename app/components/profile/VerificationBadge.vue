@@ -39,9 +39,4 @@ const badges = computed(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-.nf-verification-badge {
-  display: inline-flex;
-  gap: 4px;
-}
-</style>
+<style src="~/assets/scss/components/profile/VerificationBadge.scss" lang="scss" scoped></style>

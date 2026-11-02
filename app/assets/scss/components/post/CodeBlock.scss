@@ -1,0 +1,29 @@
+.code-block {
+  border: 1px solid $color-border-soft;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: $space-2 0;
+}
+.code-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-2;
+  background: $color-surface-2;
+  font-size: $font-size-xs;
+}
+button {
+  cursor: pointer;
+  color: $color-text;
+  background: $color-surface-3;
+  border: 1px solid $color-border-soft;
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+pre,
+:deep(pre) {
+  overflow-x: auto;
+  margin: 0;
+  padding: $space-3;
+  white-space: pre;
+}

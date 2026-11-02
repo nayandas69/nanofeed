@@ -1,0 +1,11 @@
+.recommendation-reason {
+  padding: $space-2 $space-4;
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+}
+// Inherits layout properties directly via wrapper if needed
+.nf-feed-item {
+  width: 100%;
+  padding: 0;
+  margin-bottom: $space-2;
+}

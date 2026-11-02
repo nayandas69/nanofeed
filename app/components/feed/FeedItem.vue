@@ -24,16 +24,4 @@ const emit = defineEmits<{
   </div>
 </template>
 
-<style lang="scss" scoped>
-.recommendation-reason {
-  padding: $space-2 $space-4;
-  color: $color-text-muted;
-  font-size: $font-size-xs;
-}
-// Inherits layout properties directly via wrapper if needed
-.nf-feed-item {
-  width: 100%;
-  padding: 0;
-  margin-bottom: $space-2;
-}
-</style>
+<style src="~/assets/scss/components/feed/FeedItem.scss" lang="scss" scoped></style>

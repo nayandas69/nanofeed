@@ -79,6 +79,12 @@ export function compileArticle(filename: string, source: string): DocsArticle {
     }
     if (token.type === 'inline') {
       for (const child of token.children ?? []) {
+        if (child.type === 'image') {
+          const src = child.attrGet('src')
+          // Keep image paths usable on GitHub while serving the same files from Nuxt public/.
+          if (typeof src === 'string' && src.startsWith('../public/docs/screenshots/'))
+            child.attrSet('src', src.replace('../public/', '/'))
+        }
         if (child.type !== 'link_open') continue
         const href = child.attrGet('href')
         const local =

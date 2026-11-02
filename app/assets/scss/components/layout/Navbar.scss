@@ -1,0 +1,141 @@
+.nf-navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-fixed;
+  height: $app-navbar-height;
+  padding: env(safe-area-inset-top, 0px) $space-4 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba($color-bg, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $color-border-soft;
+
+  // Visual consistency for 3 columns even if slots are empty
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 100%;
+  }
+
+  .right {
+    justify-content: flex-end;
+    width: auto;
+    min-width: 60px;
+    gap: $space-3;
+    flex-shrink: 0;
+  }
+  .title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin: 0;
+    @include truncate;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.docs-link {
+  font-size: $font-size-xs;
+  text-decoration: none;
+}
+
+.navbar-search {
+  flex: 1;
+  margin: 0 $space-2;
+  @include flex-center;
+  max-width: 400px;
+}
+
+.icon-btn {
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: $color-text;
+  position: relative;
+  @include hover-transition(background-color);
+
+  &:hover {
+    background-color: $color-surface-2;
+  }
+
+  &.notif-btn {
+    margin-left: auto;
+  }
+
+  .badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: $color-accent;
+    color: white;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    padding: 2px 5px;
+    border-radius: $radius-full;
+    border: 2px solid $color-bg;
+    line-height: 1;
+  }
+}
+
+.mobile-avatar-wrapper {
+  position: relative;
+  display: none;
+
+  @include max-sm {
+    display: block;
+  }
+}
+
+.avatar-btn {
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.logout-dropdown {
+  position: absolute;
+  top: calc(100% + $space-2);
+  left: 0;
+  background-color: $color-surface-2;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-xl;
+  padding: $space-2;
+  z-index: $z-dropdown;
+  min-width: 180px;
+
+  .logout-btn {
+    @include flex-center;
+    justify-content: flex-start;
+    gap: $space-2;
+    width: 100%;
+    padding: $space-2 $space-3;
+    border-radius: $radius-md;
+    color: $color-text;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-xs;
+    @include hover-transition(background-color);
+
+    &:hover {
+      background-color: rgba($color-danger, 0.1);
+      color: $color-danger;
+    }
+  }
+}
+
+// On desktop, the title typically goes to the left rather than center
+@include md {
+  .title {
+    text-align: left;
+    margin-left: $space-4; // space from back button if present
+  }
+
+  .nf-navbar {
+    justify-content: flex-start;
+  }
+}

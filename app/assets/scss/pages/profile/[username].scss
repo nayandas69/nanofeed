@@ -1,0 +1,28 @@
+.loading-state,
+.error-state {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-4;
+  padding: $space-10;
+  text-align: center;
+  color: $color-text-muted;
+
+  h2 {
+    color: $color-text;
+    margin: 0;
+  }
+}
+
+.profile-maintenance {
+  padding: $space-4;
+  color: $color-text-muted;
+}
+.profile-composer-area {
+  padding: $space-4;
+  border-bottom: 8px solid $color-surface-2;
+}
+
+:deep(.profile-composer-area .nf-composer) {
+  padding: 0;
+  border-bottom: none;
+}

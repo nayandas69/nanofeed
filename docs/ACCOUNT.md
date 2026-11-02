@@ -23,6 +23,8 @@ For **Verified Contributor**, enter a commit SHA (at least seven hexadecimal cha
 
 Existing contributors need to claim once. Your settings update after a successful claim; other viewers see current badges when they refresh author data. No six-hour contributor lookup is needed for posts or profiles. If GitHub reports expired authorization, sign out and sign in with GitHub again. Wait before retrying a rate-limit error. The contributor claim is separate from the owner-reviewed developer request.
 
+For illustrated steps and the meaning of each badge, see [Badges and verification](BADGES.md).
+
 ## Restrictions and moderation
 
 The owner can review reports and apply account restrictions. Read the restriction banner for your account's status. Restricted accounts cannot submit posts through the composer. Verification does not remove moderation requirements.

@@ -84,42 +84,4 @@ const save = async () => {
   </section>
 </template>
 
-<style lang="scss" scoped>
-.badge-settings {
-  padding: $space-4;
-  border: 1px solid $color-border;
-  border-radius: $radius-md;
-  display: flex;
-  flex-direction: column;
-  gap: $space-3;
-  p {
-    color: $color-text-muted;
-  }
-  ol {
-    padding: 0;
-    list-style: none;
-  }
-  li {
-    display: flex;
-    align-items: center;
-    gap: $space-2;
-    margin-bottom: $space-3;
-  }
-  li span {
-    flex: 1;
-  }
-  button[type='button'] {
-    color: $color-text;
-    background: $color-surface-2;
-    border: 1px solid $color-border;
-    border-radius: $radius-sm;
-    min-width: 44px;
-    min-height: 44px;
-    cursor: pointer;
-    &:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-  }
-}
-</style>
+<style src="~/assets/scss/components/settings/BadgeSettingsForm.scss" lang="scss" scoped></style>
